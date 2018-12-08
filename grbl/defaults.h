@@ -577,4 +577,55 @@
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
+#ifdef DEFAULTS_LASERSAUR
+  // Lasersaur defaults
+  #define DEFAULT_X_STEPS_PER_MM 214.190
+  #define DEFAULT_Y_STEPS_PER_MM 219.058
+  #define DEFAULT_Z_STEPS_PER_MM 250.0
+  #define DEFAULT_A_STEPS_PER_MM 160.0
+  #define DEFAULT_X_MAX_RATE 8000.0 // mm/min
+  #define DEFAULT_Y_MAX_RATE 8000.0 // mm/min
+  #define DEFAULT_Z_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_A_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_X_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_A_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_X_CURRENT 0.5 // amps !! PRODUCTION 1.7
+  #define DEFAULT_Y_CURRENT 0.5 // amps !! PRODUCTION 2.0
+  #define DEFAULT_Z_CURRENT 0.0 // amps
+  #define DEFAULT_A_CURRENT 0.0 // amps
+  #define DEFAULT_X_MAX_TRAVEL 1220.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 610.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_A_MAX_TRAVEL 1.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_PWM_FREQ 5000     // Hz
+  #define DEFAULT_SPINDLE_PWM_OFF_VALUE 0   // %
+  #define DEFAULT_SPINDLE_PWM_MIN_VALUE 1   // %
+  #define DEFAULT_SPINDLE_PWM_MAX_VALUE 100 // %
+  #define DEFAULT_SPINDLE_RPM_MAX 1000.0    // rpm (S-value)
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0       // rpm (S-value)
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 10
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 0      // WPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01   // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002       // mm
+  #define DEFAULT_REPORT_INCHES 0           // false
+  #define DEFAULT_INVERT_ST_ENABLE 0        // false
+  #define DEFAULT_INVERT_LIMIT_PINS 1       // true
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1       // true
+  #define DEFAULT_HARD_LIMIT_ENABLE 0       // false !!
+  #define DEFAULT_INVERT_PROBE_PIN 0        // false
+  #define DEFAULT_LASER_MODE 1              // true
+  #define DEFAULT_HOMING_ENABLE 1           // true
+  #define DEFAULT_HOMING_DIR_MASK 1         // move top/left
+  #define DEFAULT_HOMING_FEED_RATE 50.0     // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 6000.0   // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 2.0        // mm
+  #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
+#endif
+
 #endif

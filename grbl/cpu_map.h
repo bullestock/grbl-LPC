@@ -548,10 +548,10 @@
   #ifdef SPINDLE_PWM_PIN_2_4
     #define SPINDLE_PWM_CHANNEL         PWM1_CH5    // MOSFET3 (P2.4)
   #else
-    #define SPINDLE_PWM_CHANNEL         PWM1_CH6    // BED MOSFET (P2.5)
+    #define SPINDLE_PWM_CHANNEL         PWM1_CH4    // P1.23
   #endif
-  #define SPINDLE_PWM_USE_PRIMARY_PIN   false
-  #define SPINDLE_PWM_USE_SECONDARY_PIN true
+  #define SPINDLE_PWM_USE_PRIMARY_PIN   true
+  #define SPINDLE_PWM_USE_SECONDARY_PIN false
 
   // Stepper current control
   #define CURRENT_I2C Driver_I2C1       // I2C driver for current control. Comment out to disable (for C3d boards!)
