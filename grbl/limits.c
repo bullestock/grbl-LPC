@@ -52,6 +52,15 @@ void limits_init()
     WDTCSR |= (1<<WDCE) | (1<<WDE);
     WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
   #endif
+
+#ifdef DOOR_DDR
+    DOOR_DDR &= ~(DOOR_MASK);
+#  ifdef DISABLE_LIMIT_PIN_PULL_UP
+    DOOR_PORT &= ~(DOOR_MASK); // Normal low operation. Requires external pull-down.
+#  else
+    DOOR_PORT |= (DOOR_MASK);  // Enable internal pull-up resistors. Normal high operation.
+#  endif
+#endif
 }
 
 
@@ -81,6 +90,23 @@ uint8_t limits_get_state()
     }
   }
   return(limit_state);
+}
+
+uint8_t door_get_state()
+{
+  uint8_t door_state = 0;
+  uint32_t pin = (DOOR_PIN & DOOR_MASK);
+#ifdef INVERT_DOOR_PIN_MASK
+  pin ^= INVERT_DOOR_PIN_MASK;
+#endif
+  if (bit_isfalse(settings.flags, BITFLAG_INVERT_DOOR_PINS)) { pin ^= DOOR_MASK; }
+  if (pin) {
+    uint8_t idx;
+    for (uint8_t idx = 0; idx < 2; idx++) {
+      if (pin & get_door_pin_mask(idx)) { door_state |= (1 << idx); }
+    }
+  }
+  return door_state;
 }
 
 

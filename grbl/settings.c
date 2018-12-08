@@ -108,6 +108,7 @@ void settings_restore(uint8_t restore_flag) {
     if (DEFAULT_SOFT_LIMIT_ENABLE) { settings.flags |= BITFLAG_SOFT_LIMIT_ENABLE; }
     if (DEFAULT_INVERT_LIMIT_PINS) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
     if (DEFAULT_INVERT_PROBE_PIN) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
+    if (DEFAULT_INVERT_DOOR_PINS) { settings.flags |= BITFLAG_INVERT_DOOR_PINS; }
 
     settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
     settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM;
@@ -295,6 +296,10 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
         else { settings.flags &= ~BITFLAG_INVERT_PROBE_PIN; }
         probe_configure_invert_mask(false);
         break;
+      case 7:
+        if (int_value) { settings.flags |= BITFLAG_INVERT_DOOR_PINS; }
+        else { settings.flags &= ~BITFLAG_INVERT_DOOR_PINS; }
+        break;
       case 10: settings.status_report_mask = int_value; break;
       case 11: settings.junction_deviation = value; break;
       case 12: settings.arc_tolerance = value; break;
@@ -395,4 +400,12 @@ uint32_t get_limit_pin_mask(uint8_t axis_idx)
   //if ( axis_idx == A_AXIS ) { return((1<<A_LIMIT_BIT)); }
   //if ( axis_idx == B_AXIS ) { return((1<<B_LIMIT_BIT)); }
   //return((1<<C_LIMIT_BIT));
+}
+
+// Returns door pin mask according to Grbl internal axis indexing.
+uint32_t get_door_pin_mask(uint8_t door_idx)
+{
+  if ( door_idx == 0 ) { return((1<<DOOR_1_BIT)); }
+  if ( door_idx == 1 ) { return((1<<DOOR_2_BIT)); }
+  return 0;
 }

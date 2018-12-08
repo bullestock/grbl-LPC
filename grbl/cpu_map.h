@@ -497,6 +497,7 @@
   #define Z_DISABLE_BIT           19
   #define A_DISABLE_BIT           21
   #define STEPPERS_DISABLE_MASK   ((1<<X_DISABLE_BIT)|(1<<Y_DISABLE_BIT)|(1<<Z_DISABLE_BIT)|(1<<A_DISABLE_BIT))
+#define AIR_ASSIST_BIT  15  // P0.15
 
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).
@@ -508,6 +509,13 @@
   #define Z_LIMIT_BIT	    28  // Z-MIN=28, Z-MAX=29
   #define A_LIMIT_BIT       29  // reuse p1.29
   #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)|(1<<A_LIMIT_BIT)) // All limit bits
+
+  #define DOOR_DDR         LPC_GPIO2->FIODIR
+  #define DOOR_PIN         LPC_GPIO2->FIOPIN
+  #define DOOR_PORT        LPC_GPIO2->FIOPIN
+#define DOOR_1_BIT      11
+#define DOOR_2_BIT      12
+#define DOOR_MASK       ((1<<DOOR_1_BIT)|(1<<DOOR_2_BIT))
 
   // Define flood and mist coolant enable output pins.
   #define COOLANT_FLOOD_DDR   LPC_GPIO2->FIODIR
