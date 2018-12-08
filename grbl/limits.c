@@ -101,7 +101,6 @@ uint8_t door_get_state()
 #endif
   if (bit_isfalse(settings.flags, BITFLAG_INVERT_DOOR_PINS)) { pin ^= DOOR_MASK; }
   if (pin) {
-    uint8_t idx;
     for (uint8_t idx = 0; idx < 2; idx++) {
       if (pin & get_door_pin_mask(idx)) { door_state |= (1 << idx); }
     }

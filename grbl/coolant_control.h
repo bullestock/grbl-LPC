@@ -44,4 +44,6 @@ void coolant_set_state(uint8_t mode);
 // G-code parser entry-point for setting coolant states. Checks for and executes additional conditions.
 void coolant_sync(uint8_t mode);
 
+void fan_set_state(bool on);
+
 #endif

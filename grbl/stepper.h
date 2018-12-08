@@ -58,4 +58,6 @@ float st_get_realtime_rate();
 
 void set_air_assist(bool on);
 
+void set_pwroff(bool on);
+
 #endif

@@ -627,6 +627,7 @@
   #define DEFAULT_HOMING_PULLOFF 2.0        // mm
   #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
   #define DEFAULT_INVERT_DOOR_PINS 1       // true
+  #undef ENABLE_M7
 
 #define HARD_LIMIT_FORCE_STATE_CHECK
 

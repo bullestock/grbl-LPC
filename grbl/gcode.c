@@ -288,6 +288,22 @@ uint8_t gc_execute_line(char *line)
             set_air_assist(false);
             break;
 #endif
+#ifdef FAN_BIT
+        case 44:
+            fan_set_state(true);
+            break;
+        case 45:
+            fan_set_state(false);
+            break;
+#endif
+#ifdef PWROFF_BIT
+        case 46:
+            set_pwroff(true);
+            break;
+        case 47:
+            set_pwroff(false);
+            break;
+#endif
           default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND); // [Unsupported M command]
         }
 

@@ -576,6 +576,9 @@ void stepper_init()
 #ifdef AIR_ASSIST_BIT
      | (1 << AIR_ASSIST_BIT)
 #endif
+#ifdef PWROFF_BIT
+     | (1 << PWROFF_BIT)
+#endif
      ;
 
   // Configure Timer 1: Stepper Driver Interrupt
@@ -594,6 +597,16 @@ void set_air_assist(bool on)
 {
     DIRECTION_PORT = (DIRECTION_PORT & ~(1 << AIR_ASSIST_BIT)) |
        (on ? (1 << AIR_ASSIST_BIT) : 0);
+}
+
+#endif
+
+#ifdef PWROFF_BIT
+
+void set_pwroff(bool on)
+{
+    DIRECTION_PORT = (DIRECTION_PORT & ~(1 << PWROFF_BIT)) |
+       (on ? (1 << PWROFF_BIT) : 0);
 }
 
 #endif

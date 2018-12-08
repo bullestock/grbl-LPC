@@ -28,28 +28,31 @@ void coolant_init()
     COOLANT_MIST_DDR |= (1 << COOLANT_MIST_BIT);
   #endif
   coolant_stop();
+
+#ifdef FAN_DDR
+  FAN_DDR |= (1 << FAN_BIT); // Configure as output pin
+#endif
 }
 
 
 // Returns current coolant output state. Overrides may alter it from programmed state.
 uint8_t coolant_get_state()
 {
-  uint8_t cl_state = COOLANT_STATE_DISABLE;
+    uint8_t cl_state = COOLANT_STATE_DISABLE;
   #ifdef INVERT_COOLANT_FLOOD_PIN
-    if (bit_isfalse(COOLANT_FLOOD_PORT,(1 << COOLANT_FLOOD_BIT))) {
+    if (bit_isfalse(COOLANT_FLOOD_PORT,(1 << COOLANT_FLOOD_BIT)))
   #else
-    if (bit_istrue(COOLANT_FLOOD_PORT,(1 << COOLANT_FLOOD_BIT))) {
+    if (bit_istrue(COOLANT_FLOOD_PORT,(1 << COOLANT_FLOOD_BIT)))
   #endif
-    cl_state |= COOLANT_STATE_FLOOD;
-  }
+        cl_state |= COOLANT_STATE_FLOOD;
   #ifdef ENABLE_M7
     #ifdef INVERT_COOLANT_MIST_PIN
-      if (bit_isfalse(COOLANT_MIST_PORT,(1 << COOLANT_MIST_BIT))) {
+    if (bit_isfalse(COOLANT_MIST_PORT,(1 << COOLANT_MIST_BIT)))
     #else
-      if (bit_istrue(COOLANT_MIST_PORT,(1 << COOLANT_MIST_BIT))) {
+    if (bit_istrue(COOLANT_MIST_PORT,(1 << COOLANT_MIST_BIT)))
     #endif
-      cl_state |= COOLANT_STATE_MIST;
-    }
+        cl_state |= COOLANT_STATE_MIST;
+
   #endif
   return(cl_state);
 }
@@ -110,7 +113,6 @@ void coolant_set_state(uint8_t mode)
   sys.report_ovr_counter = 0; // Set to report change immediately
 }
 
-
 // G-code parser entry-point for setting coolant state. Forces a planner buffer sync and bails 
 // if an abort or check-mode is active.
 void coolant_sync(uint8_t mode)
@@ -119,3 +121,12 @@ void coolant_sync(uint8_t mode)
   protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
   coolant_set_state(mode);
 }
+
+void fan_set_state(bool on)
+{
+    if (on)
+        FAN_PORT |= (1 << FAN_BIT);
+    else
+        FAN_PORT &= ~(1 << FAN_BIT);
+}
+
