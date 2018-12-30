@@ -54,12 +54,19 @@ void limits_init()
   #endif
 
 #ifdef DOOR_DDR
-    DOOR_DDR &= ~(DOOR_MASK);
-#  ifdef DISABLE_LIMIT_PIN_PULL_UP
-    DOOR_PORT &= ~(DOOR_MASK); // Normal low operation. Requires external pull-down.
-#  else
-    DOOR_PORT |= (DOOR_MASK);  // Enable internal pull-up resistors. Normal high operation.
-#  endif
+  DOOR_DDR &= ~(DOOR_MASK);
+  // Disable pullups
+  DOOR_PINMODE &= ~(1 << DOOR_1_PINMODE_BIT);
+  DOOR_PINMODE |= (1 << (DOOR_1_PINMODE_BIT + 1));
+  DOOR_PINMODE &= ~(1 << DOOR_2_PINMODE_BIT);
+  DOOR_PINMODE |= (1 << (DOOR_2_PINMODE_BIT + 1));
+#endif
+
+#ifdef CHILLER_DDR
+  CHILLER_DDR &= ~(CHILLER_MASK);
+  // Disable pullup
+  CHILLER_PINMODE &= ~(1 << CHILLER_PINMODE_BIT);
+  CHILLER_PINMODE |= (1 << (CHILLER_PINMODE_BIT + 1));
 #endif
 }
 
@@ -92,6 +99,8 @@ uint8_t limits_get_state()
   return(limit_state);
 }
 
+#ifdef DOOR_DDR
+
 uint8_t door_get_state()
 {
   uint8_t door_state = 0;
@@ -108,6 +117,25 @@ uint8_t door_get_state()
   return door_state;
 }
 
+#endif
+
+#ifdef CHILLER_DDR
+
+uint8_t chiller_get_state()
+{
+  uint8_t chiller_state = 0;
+  uint32_t pin = (CHILLER_PIN & CHILLER_MASK);
+#ifdef INVERT_CHILLER_PIN_MASK
+  pin ^= INVERT_CHILLER_PIN_MASK;
+#endif
+  if (bit_isfalse(settings.flags, BITFLAG_INVERT_CHILLER_PIN)) { pin ^= CHILLER_MASK; }
+  if (pin)
+      if (pin & (1 << CHILLER_BIT))
+          chiller_state |= 1;
+  return chiller_state;
+}
+
+#endif
 
 // This is the Limit Pin Change Interrupt, which handles the hard limit feature. A bouncing
 // limit switch can cause a lot of problems, like false readings and multiple interrupt calls.

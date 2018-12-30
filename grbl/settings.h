@@ -39,6 +39,7 @@
 #define BITFLAG_INVERT_LIMIT_PINS  bit(6)
 #define BITFLAG_INVERT_PROBE_PIN   bit(7)
 #define BITFLAG_INVERT_DOOR_PINS   bit(8)
+#define BITFLAG_INVERT_CHILLER_PIN bit(9)
 
 // Define status reporting boolean enable bit flags in settings.status_report_mask
 #define BITFLAG_RT_STATUS_POSITION_TYPE     bit(0)

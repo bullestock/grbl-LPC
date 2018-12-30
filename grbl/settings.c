@@ -108,7 +108,12 @@ void settings_restore(uint8_t restore_flag) {
     if (DEFAULT_SOFT_LIMIT_ENABLE) { settings.flags |= BITFLAG_SOFT_LIMIT_ENABLE; }
     if (DEFAULT_INVERT_LIMIT_PINS) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
     if (DEFAULT_INVERT_PROBE_PIN) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
+#ifdef DOOR_DDR
     if (DEFAULT_INVERT_DOOR_PINS) { settings.flags |= BITFLAG_INVERT_DOOR_PINS; }
+#endif
+#ifdef CHILLER_DDR
+    if (DEFAULT_INVERT_CHILLER_PIN) { settings.flags |= BITFLAG_INVERT_CHILLER_PIN; }
+#endif
 
     settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
     settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM;
@@ -296,10 +301,18 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
         else { settings.flags &= ~BITFLAG_INVERT_PROBE_PIN; }
         probe_configure_invert_mask(false);
         break;
+#ifdef DOOR_DDR
       case 7:
         if (int_value) { settings.flags |= BITFLAG_INVERT_DOOR_PINS; }
         else { settings.flags &= ~BITFLAG_INVERT_DOOR_PINS; }
         break;
+#endif
+#ifdef CHILLER_DDR
+      case 8:
+        if (int_value) { settings.flags |= BITFLAG_INVERT_CHILLER_PIN; }
+        else { settings.flags &= ~BITFLAG_INVERT_CHILLER_PIN; }
+        break;
+#endif
       case 10: settings.status_report_mask = int_value; break;
       case 11: settings.junction_deviation = value; break;
       case 12: settings.arc_tolerance = value; break;

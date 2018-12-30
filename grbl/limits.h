@@ -32,8 +32,19 @@ void limits_disable();
 // Returns limit state as a bit-wise uint8 variable.
 uint8_t limits_get_state();
 
+#ifdef DOOR_DDR
+
 // Returns door state as a bit-wise uint8 variable.
 uint8_t door_get_state();
+
+#endif
+
+#ifdef DOOR_DDR
+
+// Returns chiller state as 0 or 1.
+uint8_t chiller_get_state();
+
+#endif
 
 // Perform one portion of the homing cycle based on the input settings.
 void limits_go_home(uint8_t cycle_mask);

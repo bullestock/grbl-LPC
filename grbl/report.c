@@ -189,7 +189,12 @@ void report_grbl_settings() {
   report_util_uint8_setting(4,bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE));
   report_util_uint8_setting(5,bit_istrue(settings.flags,BITFLAG_INVERT_LIMIT_PINS));
   report_util_uint8_setting(6,bit_istrue(settings.flags,BITFLAG_INVERT_PROBE_PIN));
+#ifdef DOOR_DDR
   report_util_uint8_setting(7,bit_istrue(settings.flags,BITFLAG_INVERT_DOOR_PINS));
+#endif
+#ifdef CHILLER_DDR
+  report_util_uint8_setting(8,bit_istrue(settings.flags,BITFLAG_INVERT_CHILLER_PIN));
+#endif
   report_util_uint8_setting(10,settings.status_report_mask);
   report_util_float_setting(11,settings.junction_deviation,N_DECIMAL_SETTINGVALUE);
   report_util_float_setting(12,settings.arc_tolerance,N_DECIMAL_SETTINGVALUE);
@@ -581,8 +586,15 @@ void report_realtime_status()
         //if (bit_istrue(lim_pin_state,bit(C_AXIS))) { serial_write('C'); }
 #ifdef DOOR_DDR
         uint8_t door_pin_state = door_get_state();
-        if (bit_istrue(door_pin_state, bit(0))) { serial_write('1'); }
-        if (bit_istrue(door_pin_state, bit(1))) { serial_write('2'); }
+        if (bit_istrue(door_pin_state, bit(0)))
+            serial_write('1');
+        if (bit_istrue(door_pin_state, bit(1)))
+            serial_write('2');
+#endif
+#ifdef CHILLER_DDR
+        uint8_t chiller_pin_state = chiller_get_state();
+        if (chiller_pin_state)
+            serial_write('c');
 #endif
       }
       if (ctrl_pin_state) {
