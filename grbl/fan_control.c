@@ -20,6 +20,38 @@
 
 #include "grbl.h"
 
+static int fan_periods = 1;
+
+const int fan_on_chunk = 10; // seconds
+
+void set_fan_on_time(int secs)
+{
+    fan_periods = (secs + fan_on_chunk - 1)/fan_on_chunk;
+}
+
+static uint32_t fan_on_at = 0;
+static int fan_periods_left = fan_periods;
+
+void fan_on()
+{
+    fan_set_state(true);
+    fan_on_at = get_time();
+    fan_periods_left = fan_periods;
+}
+
+void update_fan()
+{
+    const auto cycles = uint64_t(SystemCoreClock) * fan_on_chunk;
+    if (get_time() - fan_on_at < cycles)
+        return;
+    // Ten seconds have passed
+    --fan_periods_left;
+    fan_on_at = get_time();
+    if (fan_periods_left > 0)
+        return;
+    fan_set_state(false);
+}
+
 void fan_set_state(bool on)
 {
     if (on)

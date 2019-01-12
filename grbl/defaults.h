@@ -605,6 +605,7 @@
   #define DEFAULT_SPINDLE_PWM_MAX_VALUE 100 // %
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0    // rpm (S-value)
   #define DEFAULT_SPINDLE_RPM_MIN 0.0       // rpm (S-value)
+  #define DEFAULT_FAN_ON_TIME 30            // seconds
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK 0

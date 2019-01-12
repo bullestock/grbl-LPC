@@ -20,11 +20,12 @@
 
 #pragma once
 
-// Set the fan timer period.
-void set_fan_timer_period(int secs);
+// Set the fan ON time.
+void set_fan_on_time(int secs);
 
-// Turn fan on, and let it turn off automatically once the fan timer expires.
 void fan_on();
+
+void update_fan();
 
 void fan_set_state(bool on);
 

@@ -101,6 +101,8 @@ typedef struct {
   float rpm_max;
   float rpm_min;
 
+  float fan_on_time;
+
   uint8_t flags;  // Contains default boolean settings
 
   uint8_t homing_dir_mask;

@@ -495,39 +495,6 @@ extern "C" void TIMER1_IRQHandler()
 }
 
 
-/* The Stepper Port Reset Interrupt: Timer0 OVF interrupt handles the falling edge of the step
-   pulse. This should always trigger before the next Timer1 COMPA interrupt and independently
-   finish, if Timer1 is disabled after completing a move.
-   NOTE: Interrupt collisions between the serial and stepper interrupts can cause delays by
-   a few microseconds, if they execute right before one another. Not a big deal, but can
-   cause issues at high step rates if another high frequency asynchronous interrupt is
-   added to Grbl.
-*/
-/* Not ported; the main ISR assumes short pulse widths and handles it. Stepper drivers with 
-   long pulse widths may need this instead if they cause the main ISR to consume too much time.
-// This interrupt is enabled by ISR_TIMER1_COMPAREA when it sets the motor port bits to execute
-// a step. This ISR resets the motor port after a short period (settings.pulse_microseconds)
-// completing one step cycle.
-ISR(TIMER0_OVF_vect)
-{
-  // Reset stepping pins (leave the direction pins)
-  STEP_PORT = (STEP_PORT & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK);
-  TCCR0B = 0; // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
-}
-#ifdef STEP_PULSE_DELAY
-  // This interrupt is used only when STEP_PULSE_DELAY is enabled. Here, the step pulse is
-  // initiated after the STEP_PULSE_DELAY time period has elapsed. The ISR TIMER2_OVF interrupt
-  // will then trigger after the appropriate settings.pulse_microseconds, as in normal operation.
-  // The new timing between direction, step pulse, and step complete events are setup in the
-  // st_wake_up() routine.
-  ISR(TIMER0_COMPA_vect)
-  {
-    STEP_PORT = st.step_bits; // Begin step pulse.
-  }
-#endif
-*/
-
-
 // Generates the step and direction port invert masks used in the Stepper Interrupt Driver.
 void st_generate_step_dir_invert_masks()
 {
