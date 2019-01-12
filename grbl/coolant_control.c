@@ -121,12 +121,3 @@ void coolant_sync(uint8_t mode)
   protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
   coolant_set_state(mode);
 }
-
-void fan_set_state(bool on)
-{
-    if (on)
-        FAN_PORT |= (1 << FAN_BIT);
-    else
-        FAN_PORT &= ~(1 << FAN_BIT);
-}
-
