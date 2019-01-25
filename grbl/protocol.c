@@ -118,7 +118,7 @@ void protocol_main_loop()
           }
         } else {
           if (c <= ' ') {
-            // Throw away whitepace and control characters
+            // Throw away whitespace and control characters
           } else if (c == '/') {
             // Block delete NOT SUPPORTED. Ignore character.
             // NOTE: If supported, would simply need to check the system if block delete is enabled.
@@ -173,6 +173,8 @@ void protocol_buffer_synchronize()
   do {
     protocol_execute_realtime();   // Check and execute run-time commands
     if (sys.abort) { return; } // Check for system abort
+    if (sys.state == STATE_CYCLE)
+        fan_reset_timer();
   } while (plan_get_current_block() || (sys.state == STATE_CYCLE));
 }
 
@@ -238,6 +240,8 @@ void protocol_exec_rt_system()
     system_clear_exec_alarm(); // Clear alarm
   }
 
+  if (sys.state == STATE_CYCLE)
+   fan_reset_timer();
   update_fan();
   
   rt_exec = sys_rt_exec_state; // Copy volatile sys_rt_exec_state.

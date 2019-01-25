@@ -20,21 +20,28 @@
 
 #include "grbl.h"
 
-static int fan_periods = 1;
+// get_time() wraps around too early, so use an auxiliary counter
+static const int fan_on_chunk = 10; // seconds
 
-const int fan_on_chunk = 10; // seconds
+static int fan_periods = 1;
+static int fan_periods_left = 0;
 
 void set_fan_on_time(int secs)
 {
+    // Round up.
     fan_periods = (secs + fan_on_chunk - 1)/fan_on_chunk;
 }
 
 static uint32_t fan_on_at = 0;
-static int fan_periods_left = fan_periods;
 
 void fan_on()
 {
     fan_set_state(true);
+    fan_reset_timer();
+}
+
+void fan_reset_timer()
+{
     fan_on_at = get_time();
     fan_periods_left = fan_periods;
 }

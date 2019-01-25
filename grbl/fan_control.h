@@ -23,9 +23,15 @@
 // Set the fan ON time.
 void set_fan_on_time(int secs);
 
+// Turn fan on, and start the timer.
 void fan_on();
 
+// Reset time
+void fan_reset_timer();
+
+// If the timer has expired, turn the fan off.
 void update_fan();
 
+// Set fan state directly.
 void fan_set_state(bool on);
 
