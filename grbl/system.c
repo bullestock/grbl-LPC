@@ -130,41 +130,84 @@ uint8_t system_execute_line(char *line)
       if(line[2] != '=') { return(STATUS_INVALID_STATEMENT); }
       return(gc_execute_line(line)); // NOTE: $J= is ignored inside g-code parser and used to detect jog motions.
       break;
-    case '$': case 'G': case 'C': case 'X':
+    case '$' : // Prints Grbl settings
       if ( line[2] != 0 ) { return(STATUS_INVALID_STATEMENT); }
-      switch( line[1] ) {
-        case '$' : // Prints Grbl settings
-          if ( sys.state & (STATE_CYCLE | STATE_HOLD) ) { return(STATUS_IDLE_ERROR); } // Block during cycle. Takes too long to print.
-          else { report_grbl_settings(); }
-          break;
-        case 'G' : // Prints gcode parser state
-          // TODO: Move this to realtime commands for GUIs to request this data during suspend-state.
-          report_gcode_modes();
-          break;
-        case 'C' : // Set check g-code mode [IDLE/CHECK]
-          // Perform reset when toggling off. Check g-code mode should only work if Grbl
-          // is idle and ready, regardless of alarm locks. This is mainly to keep things
-          // simple and consistent.
-          if ( sys.state == STATE_CHECK_MODE ) {
-            mc_reset();
-            report_feedback_message(MESSAGE_DISABLED);
-          } else {
-            if (sys.state) { return(STATUS_IDLE_ERROR); } // Requires no alarm mode.
-            sys.state = STATE_CHECK_MODE;
-            report_feedback_message(MESSAGE_ENABLED);
-          }
-          break;
-        case 'X' : // Disable alarm lock [ALARM]
-          if (sys.state == STATE_ALARM) {
-            // Block if safety door is ajar.
-            if (system_check_safety_door_ajar()) { return(STATUS_CHECK_DOOR); }
-            report_feedback_message(MESSAGE_ALARM_UNLOCK);
-            sys.state = STATE_IDLE;
-            // Don't run startup script. Prevents stored moves in startup from causing accidents.
-          } // Otherwise, no effect.
-          break;
+      if ( sys.state & (STATE_CYCLE | STATE_HOLD) ) { return(STATUS_IDLE_ERROR); } // Block during cycle. Takes too long to print.
+      else { report_grbl_settings(); }
+      break;
+    case 'G' : // Prints gcode parser state
+      // TODO: Move this to realtime commands for GUIs to request this data during suspend-state.
+      if ( line[2] != 0 ) { return(STATUS_INVALID_STATEMENT); }
+      report_gcode_modes();
+      break;
+    case 'C' : // Set check g-code mode [IDLE/CHECK]
+      // Perform reset when toggling off. Check g-code mode should only work if Grbl
+      // is idle and ready, regardless of alarm locks. This is mainly to keep things
+      // simple and consistent.
+      if ( line[2] != 0 ) { return(STATUS_INVALID_STATEMENT); }
+      if ( sys.state == STATE_CHECK_MODE ) {
+        mc_reset();
+        report_feedback_message(MESSAGE_DISABLED);
+      } else {
+        if (sys.state) { return(STATUS_IDLE_ERROR); } // Requires no alarm mode.
+        sys.state = STATE_CHECK_MODE;
+        report_feedback_message(MESSAGE_ENABLED);
       }
       break;
+    case 'X' : // Disable alarm lock [ALARM]
+      if ( line[2] != 0 ) { return(STATUS_INVALID_STATEMENT); }
+      if (sys.state == STATE_ALARM) {
+          // Block if safety door is ajar.
+          if (system_check_safety_door_ajar()) { return(STATUS_CHECK_DOOR); }
+          report_feedback_message(MESSAGE_ALARM_UNLOCK);
+          sys.state = STATE_IDLE;
+          // Don't run startup script. Prevents stored moves in startup from causing accidents.
+      } // Otherwise, no effect.
+      break;
+    case 'M': // Special M commands
+      {
+        float value = 0.0;
+        int int_value = 0;
+        uint16_t mantissa = 0;
+        ++char_counter;
+        if (!read_float(line, &char_counter, &value))
+          return STATUS_BAD_NUMBER_FORMAT; // [Expected word value]
+        int_value = trunc(value);
+        mantissa = round(100*(value - int_value));
+        if (mantissa != 0)
+          return STATUS_GCODE_UNSUPPORTED_COMMAND;
+        switch (int_value)
+        {
+#ifdef AIR_ASSIST_BIT
+        case 42:
+          set_air_assist(true);
+          break;
+        case 43:
+          set_air_assist(false);
+          break;
+#endif
+#ifdef FAN_BIT
+        case 44:
+          fan_on();
+          break;
+        case 45:
+          fan_set_state(false);
+          break;
+#endif
+#ifdef PWROFF_BIT
+        case 46:
+          set_pwroff(true);
+          break;
+        case 47:
+          set_pwroff(false);
+          break;
+#endif
+        default:
+          return STATUS_GCODE_UNSUPPORTED_COMMAND;
+        }
+      }
+      break;
+
     default :
       // Block any system command that requires the state as IDLE/ALARM. (i.e. EEPROM, homing)
       if ( !(sys.state == STATE_IDLE || sys.state == STATE_ALARM) ) { return(STATUS_IDLE_ERROR); }
