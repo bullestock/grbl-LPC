@@ -19,6 +19,15 @@ Usage notes:
 * Hard limits not yet ported
 * Control inputs not yet ported (e.g. Cycle Start and Safety Door switches)
 
+New G-code commands
+* M42 is air assist on
+* M43 is air assist off
+* M44 is fan on
+* M45 is fan off
+* M46 is power off on
+* M47 is power off off
+* $M42 through $M47 - as above, but allowed even when locked out
+
 New configuration settings
 * $33 is PWM frequency in Hz
 * $34 is PWM off value in %
@@ -27,6 +36,7 @@ New configuration settings
 * $140, $141, $142 are X, Y, Z current (amps)
   * Default to 0.0 A to avoid burning out your motors
   * Your motors will likely stall if you don't set these!
+* $44 is fan ON time in seconds
 
 Build notes:
 * You should use virtual machines, if you use multiple toolchains on the same PC.
