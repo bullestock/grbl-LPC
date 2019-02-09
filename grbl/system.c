@@ -178,22 +178,6 @@ uint8_t system_execute_line(char *line)
           return STATUS_GCODE_UNSUPPORTED_COMMAND;
         switch (int_value)
         {
-#ifdef AIR_ASSIST_BIT
-        case 42:
-          set_air_assist(true);
-          break;
-        case 43:
-          set_air_assist(false);
-          break;
-#endif
-#ifdef FAN_BIT
-        case 44:
-          fan_on();
-          break;
-        case 45:
-          fan_set_state(false);
-          break;
-#endif
 #ifdef PWROFF_BIT
         case 46:
           set_pwroff(true);

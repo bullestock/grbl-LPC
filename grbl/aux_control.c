@@ -1,5 +1,5 @@
 /*
-  fan_control.h - fan control methods
+  aux_control.h - auxiliary control methods
   Part of Grbl
 
   Copyright (c) 2019 Torsten Martinsen
@@ -18,20 +18,14 @@
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include "grbl.h"
 
-// Set the fan ON time.
-void set_fan_on_time(int secs);
+#ifdef PWROFF_BIT
 
-// Turn fan on, and start the timer.
-void fan_on();
+void set_pwroff(bool on)
+{
+    DIRECTION_PORT = (DIRECTION_PORT & ~(1 << PWROFF_BIT)) |
+       (on ? (1 << PWROFF_BIT) : 0);
+}
 
-// Reset time
-void fan_reset_timer();
-
-// If the timer has expired, turn the fan off.
-void update_fan();
-
-// Set fan state directly.
-void fan_set_state(bool on);
-
+#endif

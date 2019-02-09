@@ -280,22 +280,6 @@ uint8_t gc_execute_line(char *line)
               gc_block.modal.override = OVERRIDE_PARKING_MOTION;
               break;
           #endif
-#ifdef AIR_ASSIST_BIT
-        case 42:
-            set_air_assist(true);
-            break;
-        case 43:
-            set_air_assist(false);
-            break;
-#endif
-#ifdef FAN_BIT
-        case 44:
-            fan_on();
-            break;
-        case 45:
-            fan_set_state(false);
-            break;
-#endif
 #ifdef PWROFF_BIT
         case 46:
             set_pwroff(true);

@@ -497,8 +497,6 @@
   #define Z_DISABLE_BIT           19
   #define A_DISABLE_BIT           21
   #define STEPPERS_DISABLE_MASK   ((1<<X_DISABLE_BIT)|(1<<Y_DISABLE_BIT)|(1<<Z_DISABLE_BIT)|(1<<A_DISABLE_BIT))
-#define AIR_ASSIST_BIT  15  // P0.15
-#define PWROFF_BIT      17  // P0.17
 
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).
@@ -527,18 +525,14 @@
 #define CHILLER_PINMODE_BIT         24
 #define CHILLER_MASK       (1<<CHILLER_BIT)
 
-  // Define flood and mist coolant enable output pins.
-  #define COOLANT_FLOOD_DDR   NotUsed
-  #define COOLANT_FLOOD_PORT  NotUsed
+  // Define flood (fan) and mist (air assist) coolant enable output pins.
+  #define COOLANT_FLOOD_DDR   LPC_GPIO2->FIODIR
+  #define COOLANT_FLOOD_PORT  LPC_GPIO2->FIOPIN
   #define COOLANT_FLOOD_BIT   6  // MOSFET 2.6
-  #define COOLANT_MIST_DDR    NotUsed
-  #define COOLANT_MIST_PORT   NotUsed
-  #define COOLANT_MIST_BIT    7  // MOSFET 2.7
+  #define COOLANT_MIST_DDR    LPC_GPIO0->FIODIR
+  #define COOLANT_MIST_PORT   LPC_GPIO0->FIOPIN
+  #define COOLANT_MIST_BIT    15  // P0.15
   #define ENABLE_M7           // enables COOLANT MIST
-
-#define FAN_DDR   LPC_GPIO2->FIODIR
-#define FAN_PORT  LPC_GPIO2->FIOPIN
-#define FAN_BIT   6  // MOSFET 2.6
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).

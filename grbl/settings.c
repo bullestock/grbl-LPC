@@ -99,8 +99,6 @@ void settings_restore(uint8_t restore_flag) {
     settings.homing_debounce_delay = DEFAULT_HOMING_DEBOUNCE_DELAY;
     settings.homing_pulloff = DEFAULT_HOMING_PULLOFF;
 
-    settings.fan_on_time = DEFAULT_FAN_ON_TIME;
-    
     settings.flags = 0;
     if (DEFAULT_REPORT_INCHES) { settings.flags |= BITFLAG_REPORT_INCHES; }
     if (DEFAULT_LASER_MODE) { settings.flags |= BITFLAG_LASER_MODE; }
@@ -360,7 +358,6 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
       case 34: settings.spindle_pwm_off_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
       case 35: settings.spindle_pwm_min_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
       case 36: settings.spindle_pwm_max_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
-      case 44: settings.fan_on_time = value; set_fan_on_time(settings.fan_on_time); break;
       default:
         return(STATUS_INVALID_STATEMENT);
     }
@@ -377,7 +374,6 @@ void settings_init() {
     settings_restore(SETTINGS_RESTORE_ALL); // Force restore all EEPROM data.
     report_grbl_settings();
   }
-  set_fan_on_time(settings.fan_on_time);
 }
 
 

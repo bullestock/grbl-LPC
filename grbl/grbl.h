@@ -49,7 +49,7 @@
 #include "cpu_map.h"
 #include "planner.h"
 #include "coolant_control.h"
-#include "fan_control.h"
+#include "aux_control.h"
 #include "eeprom.h"
 #include "gcode.h"
 #include "limits.h"

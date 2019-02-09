@@ -28,10 +28,6 @@ void coolant_init()
     COOLANT_MIST_DDR |= (1 << COOLANT_MIST_BIT);
   #endif
   coolant_stop();
-
-#ifdef FAN_DDR
-  FAN_DDR |= (1 << FAN_BIT); // Configure as output pin
-#endif
 }
 
 

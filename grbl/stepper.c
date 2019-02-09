@@ -540,9 +540,6 @@ void stepper_init()
   STEP_DDR |= STEP_MASK;
   STEPPERS_DISABLE_DDR |= STEPPERS_DISABLE_MASK;
   DIRECTION_DDR |= DIRECTION_MASK
-#ifdef AIR_ASSIST_BIT
-     | (1 << AIR_ASSIST_BIT)
-#endif
 #ifdef PWROFF_BIT
      | (1 << PWROFF_BIT)
 #endif
@@ -557,26 +554,6 @@ void stepper_init()
   LPC_TIM1->EMR = 0;            // no external match
   NVIC_EnableIRQ(TIMER1_IRQn);  // Enable Stepper Driver Interrupt
 }
-
-#ifdef AIR_ASSIST_BIT
-
-void set_air_assist(bool on)
-{
-    DIRECTION_PORT = (DIRECTION_PORT & ~(1 << AIR_ASSIST_BIT)) |
-       (on ? (1 << AIR_ASSIST_BIT) : 0);
-}
-
-#endif
-
-#ifdef PWROFF_BIT
-
-void set_pwroff(bool on)
-{
-    DIRECTION_PORT = (DIRECTION_PORT & ~(1 << PWROFF_BIT)) |
-       (on ? (1 << PWROFF_BIT) : 0);
-}
-
-#endif
 
 // Called by planner_recalculate() when the executing block is updated by the new plan.
 void st_update_plan_block_parameters()

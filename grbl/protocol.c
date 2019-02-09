@@ -173,8 +173,6 @@ void protocol_buffer_synchronize()
   do {
     protocol_execute_realtime();   // Check and execute run-time commands
     if (sys.abort) { return; } // Check for system abort
-    if (sys.state == STATE_CYCLE)
-        fan_reset_timer();
   } while (plan_get_current_block() || (sys.state == STATE_CYCLE));
 }
 
@@ -234,16 +232,11 @@ void protocol_exec_rt_system()
         // the user and a GUI time to do what is needed before resetting, like killing the
         // incoming stream. The same could be said about soft limits. While the position is not
         // lost, continued streaming could cause a serious crash if by chance it gets executed.
-          update_fan();
       } while (bit_isfalse(sys_rt_exec_state,EXEC_RESET));
     }
     system_clear_exec_alarm(); // Clear alarm
   }
 
-  if (sys.state == STATE_CYCLE)
-   fan_reset_timer();
-  update_fan();
-  
   rt_exec = sys_rt_exec_state; // Copy volatile sys_rt_exec_state.
   if (rt_exec) {
 
@@ -488,6 +481,7 @@ void protocol_exec_rt_system()
         gc_state.modal.coolant = coolant_state;
       }
     }
+    //!! fan off check
   }
 
   #ifdef DEBUG
