@@ -152,7 +152,18 @@ void report_feedback_message(uint8_t message_code)
     case MESSAGE_SAFETY_DOOR_AJAR:
       printPgmString(PSTR("Check Door")); break;
     case MESSAGE_CHECK_LIMITS:
-      printPgmString(PSTR("Check Limits")); break;
+      {
+#ifdef A_LIMIT_BIT
+        const int max = 2*N_AXIS;
+#else
+        const int max = 2*(N_AXIS - 1);
+#endif
+        int limits = limits_get_state();
+        printPgmString(PSTR("Check Limits: "));
+        for (int bit = 0; bit < max; ++bit)
+          printInteger(limits & (1 << bit) ? 1 : 0);
+      }
+      break;
     case MESSAGE_PROGRAM_END:
       printPgmString(PSTR("Pgm End")); break;
     case MESSAGE_RESTORE_DEFAULTS:

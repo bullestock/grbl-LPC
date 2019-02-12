@@ -33,7 +33,6 @@
 void limits_init()
 {
   LIMIT_DDR &= ~(LIMIT_MASK); // Set as input pins
-
   #ifdef DISABLE_LIMIT_PIN_PULL_UP
     LIMIT_PORT &= ~(LIMIT_MASK); // Normal low operation. Requires external pull-down.
   #else
@@ -91,10 +90,26 @@ uint8_t limits_get_state()
   #endif
   if (bit_isfalse(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { pin ^= LIMIT_MASK; }
   if (pin) {
+#ifdef A_LIMIT_BIT
+    const int max = N_AXIS;
+#else
+    const int max = N_AXIS - 1;
+#endif
     uint8_t idx;
-    for (idx=0; idx<N_AXIS; idx++) {
-      if (pin & get_limit_pin_mask(idx)) { limit_state |= (1 << idx); }
+    for (idx = 0; idx < max; idx++)
+    {
+        const auto mask = get_limit_pin_mask(idx, false);
+        if (pin & mask)
+            limit_state |= (1 << idx);
     }
+#ifdef LIMIT_HAS_MAX
+    for (idx = 0; idx < max; idx++)
+    {
+        const auto mask = get_limit_pin_mask(idx, true);
+        if (pin & mask)
+            limit_state |= 1 << (max + idx);
+    }
+#endif
   }
   return(limit_state);
 }
