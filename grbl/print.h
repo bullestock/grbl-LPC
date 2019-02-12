@@ -31,6 +31,8 @@ void printInteger(long n);
 
 void print_uint32_base10(uint32_t n);
 
+void print_uint32_base16(uint32_t n);
+
 // Prints an uint8 variable in base 10.
 void print_uint8_base10(uint8_t n);
 
