@@ -39,9 +39,9 @@ uint8_t coolant_get_state();
 void coolant_stop();
 
 // Sets the coolant pins according to state specified.
-void coolant_set_state(uint8_t mode);
+void coolant_set_state(uint16_t mode);
 
 // G-code parser entry-point for setting coolant states. Checks for and executes additional conditions.
-void coolant_sync(uint8_t mode);
+void coolant_sync(uint16_t mode);
 
 #endif

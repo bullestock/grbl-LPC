@@ -463,7 +463,7 @@ void protocol_exec_rt_system()
     // run state can be determined by checking the parser state.
     if (rt_exec & (EXEC_COOLANT_FLOOD_OVR_TOGGLE | EXEC_COOLANT_MIST_OVR_TOGGLE)) {
       if ((sys.state == STATE_IDLE) || (sys.state & (STATE_CYCLE | STATE_HOLD))) {
-        uint8_t coolant_state = gc_state.modal.coolant;
+        uint16_t coolant_state = gc_state.modal.coolant;
         #ifdef ENABLE_M7
           if (rt_exec & EXEC_COOLANT_MIST_OVR_TOGGLE) {
             if (coolant_state & COOLANT_MIST_ENABLE) { bit_false(coolant_state,COOLANT_MIST_ENABLE); }
@@ -481,7 +481,6 @@ void protocol_exec_rt_system()
         gc_state.modal.coolant = coolant_state;
       }
     }
-    //!! fan off check
   }
 
   #ifdef DEBUG

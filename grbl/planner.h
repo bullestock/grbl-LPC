@@ -45,8 +45,9 @@
 #define PL_COND_FLAG_SPINDLE_CCW       bit(5)
 #define PL_COND_FLAG_COOLANT_FLOOD     bit(6)
 #define PL_COND_FLAG_COOLANT_MIST      bit(7)
+#define PL_COND_FLAG_COOLANT_FLOOD_ONLY bit(8)
 #define PL_COND_MOTION_MASK    (PL_COND_FLAG_RAPID_MOTION|PL_COND_FLAG_SYSTEM_MOTION|PL_COND_FLAG_NO_FEED_OVERRIDE)
-#define PL_COND_ACCESSORY_MASK (PL_COND_FLAG_SPINDLE_CW|PL_COND_FLAG_SPINDLE_CCW|PL_COND_FLAG_COOLANT_FLOOD|PL_COND_FLAG_COOLANT_MIST)
+#define PL_COND_ACCESSORY_MASK (PL_COND_FLAG_SPINDLE_CW|PL_COND_FLAG_SPINDLE_CCW|PL_COND_FLAG_COOLANT_FLOOD|PL_COND_FLAG_COOLANT_MIST|PL_COND_FLAG_COOLANT_FLOOD_ONLY)
 
 
 // This struct stores a linear movement of a g-code block motion with its critical "nominal" values
@@ -59,7 +60,7 @@ typedef struct {
   uint32_t direction_bits;   // The direction bit set for this block (refers to *_DIRECTION_BIT in config.h)
 
   // Block condition data to ensure correct execution depending on states and overrides.
-  uint8_t condition;      // Block bitflag variable defining block run conditions. Copied from pl_line_data.
+  uint16_t condition;      // Block bitflag variable defining block run conditions. Copied from pl_line_data.
   #ifdef USE_LINE_NUMBERS
     int32_t line_number;  // Block line number for real-time reporting. Copied from pl_line_data.
   #endif

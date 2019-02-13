@@ -77,13 +77,21 @@ void coolant_stop()
 // if enabled. Also sets a flag to report an update to a coolant state.
 // Called by coolant toggle override, parking restore, parking retract, sleep mode, g-code
 // parser program end, and g-code parser coolant_sync().
-void coolant_set_state(uint8_t mode)
+void coolant_set_state(uint16_t mode)
 {
   if (sys.abort) { return; } // Block during abort.  
   
   if (mode == COOLANT_DISABLE) {
   
     coolant_stop(); 
+  
+  } else if (mode == COOLANT_MIST_DISABLE) {
+  
+#ifdef INVERT_COOLANT_MIST_PIN
+      COOLANT_MIST_PORT |= (1 << COOLANT_MIST_BIT);
+#else
+      COOLANT_MIST_PORT &= ~(1 << COOLANT_MIST_BIT);
+#endif
   
   } else {
   
@@ -111,7 +119,7 @@ void coolant_set_state(uint8_t mode)
 
 // G-code parser entry-point for setting coolant state. Forces a planner buffer sync and bails 
 // if an abort or check-mode is active.
-void coolant_sync(uint8_t mode)
+void coolant_sync(uint16_t mode)
 {
   if (sys.state == STATE_CHECK_MODE) { return; }
   protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
