@@ -585,29 +585,50 @@ void report_realtime_status()
     uint8_t lim_pin_state = limits_get_state();
     uint8_t ctrl_pin_state = system_control_get_state();
     uint8_t prb_pin_state = probe_get_state();
-    if (lim_pin_state | ctrl_pin_state | prb_pin_state) {
+#ifdef DOOR_DDR
+    uint8_t door_pin_state = door_get_state();
+#endif
+#ifdef CHILLER_DDR
+    uint8_t chiller_pin_state = chiller_get_state();
+#endif
+    if (lim_pin_state | ctrl_pin_state | prb_pin_state
+#ifdef DOOR_DDR
+        | door_pin_state
+#endif
+#ifdef CHILLER_DDR
+        | chiller_pin_state
+#endif
+        ) {
       printPgmString(PSTR("|Pn:"));
       if (prb_pin_state) { serial_write('P'); }
       if (lim_pin_state) {
         if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
         if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
         if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
+#ifdef LIMIT_HAS_MAX
+        if (bit_istrue(lim_pin_state, bit(X_AXIS + N_AXIS - 1)))
+            serial_write('x');
+        if (bit_istrue(lim_pin_state, bit(Y_AXIS + N_AXIS - 1)))
+            serial_write('y');
+        if (bit_istrue(lim_pin_state, bit(Z_AXIS + N_AXIS - 1)))
+            serial_write('z');
+#endif
+#ifdef A_LIMIT_BIT
         if (bit_istrue(lim_pin_state,bit(A_AXIS))) { serial_write('A'); }
+#endif
         //if (bit_istrue(lim_pin_state,bit(B_AXIS))) { serial_write('B'); }
         //if (bit_istrue(lim_pin_state,bit(C_AXIS))) { serial_write('C'); }
+      }
 #ifdef DOOR_DDR
-        uint8_t door_pin_state = door_get_state();
-        if (bit_istrue(door_pin_state, bit(0)))
-            serial_write('1');
-        if (bit_istrue(door_pin_state, bit(1)))
-            serial_write('2');
+      if (bit_istrue(door_pin_state, bit(0)))
+          serial_write('1');
+      if (bit_istrue(door_pin_state, bit(1)))
+          serial_write('2');
 #endif
 #ifdef CHILLER_DDR
-        uint8_t chiller_pin_state = chiller_get_state();
-        if (chiller_pin_state)
-            serial_write('c');
+      if (chiller_pin_state)
+          serial_write('c');
 #endif
-      }
       if (ctrl_pin_state) {
         #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
           if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_SAFETY_DOOR)) { serial_write('D'); }

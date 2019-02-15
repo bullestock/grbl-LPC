@@ -296,11 +296,13 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
         if (int_value) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
         else { settings.flags &= ~BITFLAG_INVERT_LIMIT_PINS; }
         break;
+#ifdef PROBE_DDR
       case 6: // Reset to ensure change. Immediate re-init may cause problems.
         if (int_value) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
         else { settings.flags &= ~BITFLAG_INVERT_PROBE_PIN; }
         probe_configure_invert_mask(false);
         break;
+#endif
 #ifdef DOOR_DDR
       case 7:
         if (int_value) { settings.flags |= BITFLAG_INVERT_DOOR_PINS; }
