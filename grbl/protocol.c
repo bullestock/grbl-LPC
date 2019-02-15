@@ -214,6 +214,16 @@ void protocol_execute_realtime()
 // NOTE: Do not alter this unless you know exactly what you are doing!
 void protocol_exec_rt_system()
 {
+    // Handle hard limits
+    if (sys.state != STATE_ALARM)
+        if (!(sys_rt_exec_alarm))
+            if (bit_istrue(settings.flags, BITFLAG_HARD_LIMIT_ENABLE))
+                if (limits_get_state())
+                {
+                    mc_reset(); // Initiate system kill.
+                    system_set_exec_alarm(EXEC_ALARM_HARD_LIMIT); // Indicate hard limit critical event
+                }
+
   uint8_t rt_exec; // Temp variable to avoid calling volatile multiple times.
   rt_exec = sys_rt_exec_alarm; // Copy volatile sys_rt_exec_alarm.
   if (rt_exec) { // Enter only if any bit flag is true
