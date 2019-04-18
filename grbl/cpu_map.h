@@ -498,6 +498,8 @@
   #define A_DISABLE_BIT           21
   #define STEPPERS_DISABLE_MASK   ((1<<X_DISABLE_BIT)|(1<<Y_DISABLE_BIT)|(1<<Z_DISABLE_BIT)|(1<<A_DISABLE_BIT))
 
+  #define PWROFF_BIT      17  // P0.17
+
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).
   #define LIMIT_DDR         LPC_GPIO1->FIODIR
