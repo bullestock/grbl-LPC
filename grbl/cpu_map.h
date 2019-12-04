@@ -507,10 +507,12 @@
   #define LIMIT_PORT        LPC_GPIO1->FIOPIN
   #define X_LIMIT_BIT       24  // X-MIN=24, X-MAX=25
   #define Y_LIMIT_BIT       26  // Y-MIN=26, Y-MAX=27
-  #define Z_LIMIT_BIT       28  // Z-MIN=28, Z-MAX=29
+  #undef Z_LIMIT_BIT
+//#define Z_LIMIT_BIT       28  // Z-MIN=28, Z-MAX=29
   #undef A_LIMIT_BIT
 #define LIMIT_HAS_MAX
-#define LIMIT_MASK       ((1 << X_LIMIT_BIT) | (1 << (X_LIMIT_BIT+1)) | (1 << Y_LIMIT_BIT) | (1 << (Y_LIMIT_BIT+1)) | (1 << Z_LIMIT_BIT) | (1 << (Z_LIMIT_BIT+1)))
+#define LIMIT_MASK       ((1 << X_LIMIT_BIT) | (1 << (X_LIMIT_BIT+1)) | (1 << Y_LIMIT_BIT) | (1 << (Y_LIMIT_BIT+1)))
+//#define LIMIT_MASK       ((1 << X_LIMIT_BIT) | (1 << (X_LIMIT_BIT+1)) | (1 << Y_LIMIT_BIT) | (1 << (Y_LIMIT_BIT+1)))
 
   #define DOOR_DDR         LPC_GPIO2->FIODIR
   #define DOOR_PIN         LPC_GPIO2->FIOPIN
