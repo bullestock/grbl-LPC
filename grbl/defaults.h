@@ -607,7 +607,7 @@
   #define DEFAULT_SPINDLE_RPM_MIN 0.0       // rpm (S-value)
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 2   // y negative down
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
   #define DEFAULT_STATUS_REPORT_MASK 0      // WPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.01   // mm
@@ -620,7 +620,7 @@
   #define DEFAULT_INVERT_PROBE_PIN 0        // false
   #define DEFAULT_LASER_MODE 1              // true
   #define DEFAULT_HOMING_ENABLE 1           // true
-  #define DEFAULT_HOMING_DIR_MASK 3         // move top/left
+  #define DEFAULT_HOMING_DIR_MASK 1         // move top/left
   #define DEFAULT_HOMING_FEED_RATE 50.0     // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 6000.0   // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
