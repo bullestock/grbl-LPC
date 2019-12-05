@@ -61,6 +61,8 @@ void coolant_stop()
   #ifdef INVERT_COOLANT_FLOOD_PIN
     COOLANT_FLOOD_PORT |= (1 << COOLANT_FLOOD_BIT);
   #else
+    // For some reason we need to do this twice
+    COOLANT_FLOOD_PORT &= ~(1 << COOLANT_FLOOD_BIT);
     COOLANT_FLOOD_PORT &= ~(1 << COOLANT_FLOOD_BIT);
   #endif
   #ifdef ENABLE_M7
