@@ -531,9 +531,15 @@
 #define CHILLER_MASK       (1<<CHILLER_BIT)
 
   // Define flood (fan) and mist (air assist) coolant enable output pins.
+#if 0
   #define COOLANT_FLOOD_DDR   LPC_GPIO2->FIODIR
   #define COOLANT_FLOOD_PORT  LPC_GPIO2->FIOPIN
   #define COOLANT_FLOOD_BIT   6  // MOSFET 2.6
+#else
+  #define COOLANT_FLOOD_DDR   LPC_GPIO0->FIODIR
+  #define COOLANT_FLOOD_PORT  LPC_GPIO0->FIOPIN
+  #define COOLANT_FLOOD_BIT   16  // P0.16
+#endif
   #define COOLANT_MIST_DDR    LPC_GPIO0->FIODIR
   #define COOLANT_MIST_PORT   LPC_GPIO0->FIOPIN
   #define COOLANT_MIST_BIT    15  // P0.15
