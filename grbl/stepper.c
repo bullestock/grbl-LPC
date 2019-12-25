@@ -542,7 +542,8 @@ void stepper_init()
   STEPPERS_DISABLE_DDR |= STEPPERS_DISABLE_MASK;
   DIRECTION_DDR |= DIRECTION_MASK
 #ifdef PWROFF_BIT
-     | (1 << PWROFF_BIT)
+     | (1 << PWROFF_BIT);
+  set_pwroff(false);
 #endif
      ;
 
