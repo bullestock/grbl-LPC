@@ -131,6 +131,17 @@ void spindle_stop()
   // and stepper ISR. Keep routine small and efficient.
   void spindle_set_speed(uint32_t pwm_value)
   {
+    int prescaler = 0;
+    if (settings.spindle_pwm_adaptive)
+    {
+        if (pwm_value > 400)
+            ; // default
+        else if (pwm_value > 100)
+            prescaler = 8; // 555 Hz
+        else
+            prescaler = 32; // 151 Hz
+    }
+    pwm_set_prescaler(prescaler);
     pwm_set_width(&SPINDLE_PWM_CHANNEL, pwm_value);
   }
 

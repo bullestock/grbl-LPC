@@ -229,6 +229,7 @@ void report_grbl_settings() {
   report_util_float_setting(34,settings.spindle_pwm_off_value,N_DECIMAL_SETTINGVALUE);
   report_util_float_setting(35,settings.spindle_pwm_min_value,N_DECIMAL_SETTINGVALUE);
   report_util_float_setting(36,settings.spindle_pwm_max_value,N_DECIMAL_SETTINGVALUE);
+  report_util_uint8_setting(37, settings.spindle_pwm_adaptive);
   // Print axis settings
   uint8_t idx, set_idx;
   uint8_t val = AXIS_SETTINGS_START_VAL;

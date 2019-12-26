@@ -23,8 +23,6 @@
 #include "pwm_driver.h"
 #include "LPC17xx.h"
 
-//#include "grbl.h"
-
 //LPC_PWM1_BASE
 //LPC_PWM1 is of type LPC_PWM_TypeDef at Address LPC_PWM1_BASE
 
@@ -148,5 +146,10 @@ void pwm_enable(PWM_Channel_Config* channel) {
 void pwm_disable(PWM_Channel_Config* channel) {
     //PWM Control Register - Disable output for channel
     LPC_PWM1->PCR &= ~channel->PCR_Enable_Mask;
+}
+
+void pwm_set_prescaler(int prescaler)
+{
+    LPC_PWM1->PR = prescaler;
 }
 

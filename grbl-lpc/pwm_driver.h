@@ -44,3 +44,4 @@ void pwm_set_width(PWM_Channel_Config* channel, uint32_t width);
 void pwm_enable(PWM_Channel_Config* channel);
 void pwm_disable(PWM_Channel_Config* channel);
 
+void pwm_set_prescaler(int prescaler);

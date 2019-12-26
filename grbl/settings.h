@@ -98,6 +98,7 @@ typedef struct {
   float spindle_pwm_off_value; // Percent
   float spindle_pwm_min_value; // Percent
   float spindle_pwm_max_value; // Percent
+  bool spindle_pwm_adaptive;
   float rpm_max;
   float rpm_min;
 
