@@ -21,7 +21,7 @@
 
 #include "grbl.h"
 
-#define USE_USB
+#undef USE_USB
 
 #ifdef USE_USB
 #include "usbSerial.h"
