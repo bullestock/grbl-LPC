@@ -475,8 +475,8 @@
   #define STEP_DDR        LPC_GPIO2->FIODIR
   #define STEP_PORT       LPC_GPIO2->FIOPIN
   #define X_STEP_BIT      0
-  #define Y_STEP_BIT      1
-  #define Z_STEP_BIT      2
+  #define Y_STEP_BIT      2
+  #define Z_STEP_BIT      1
   #define A_STEP_BIT      3
   #define STEP_MASK       ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<A_STEP_BIT)) // All step bits
 
@@ -484,8 +484,8 @@
   #define DIRECTION_DDR     LPC_GPIO0->FIODIR
   #define DIRECTION_PORT    LPC_GPIO0->FIOPIN
   #define X_DIRECTION_BIT   5
-  #define Y_DIRECTION_BIT   11
-  #define Z_DIRECTION_BIT   20
+  #define Y_DIRECTION_BIT   20
+  #define Z_DIRECTION_BIT   11
   #define A_DIRECTION_BIT   22
   #define DIRECTION_MASK    ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)|(1<<A_DIRECTION_BIT)) // All direction bits
 
@@ -493,8 +493,8 @@
   #define STEPPERS_DISABLE_DDR    LPC_GPIO0->FIODIR
   #define STEPPERS_DISABLE_PORT   LPC_GPIO0->FIOPIN
   #define X_DISABLE_BIT           4
-  #define Y_DISABLE_BIT           10
-  #define Z_DISABLE_BIT           19
+  #define Y_DISABLE_BIT           19
+  #define Z_DISABLE_BIT           10
   #define A_DISABLE_BIT           21
   #define STEPPERS_DISABLE_MASK   ((1<<X_DISABLE_BIT)|(1<<Y_DISABLE_BIT)|(1<<Z_DISABLE_BIT)|(1<<A_DISABLE_BIT))
 
@@ -583,7 +583,7 @@
   // Stepper current control
   #define CURRENT_I2C Driver_I2C1       // I2C driver for current control. Comment out to disable (for C3d boards!)
   #define CURRENT_MCP44XX_ADDR 0b0101100  // Address of MCP44XX
-  #define CURRENT_WIPERS {0, 1, 6, 7};    // Wiper registers (X, Y, Z, A)
+  #define CURRENT_WIPERS {0, 6, 1, 7};    // Wiper registers (X, Y, Z, A)
   #define CURRENT_FACTOR 113.33           // Convert amps to digipot value
 
   // Variable spindle configuration below. Do not change unless you know what you are doing.
