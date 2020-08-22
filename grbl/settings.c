@@ -433,6 +433,5 @@ uint32_t get_limit_pin_mask(uint8_t axis_idx, bool is_max)
 uint32_t get_door_pin_mask(uint8_t door_idx)
 {
   if ( door_idx == 0 ) { return((1<<DOOR_1_BIT)); }
-  if ( door_idx == 1 ) { return((1<<DOOR_2_BIT)); }
   return 0;
 }

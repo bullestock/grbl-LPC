@@ -518,10 +518,8 @@
   #define DOOR_PIN         LPC_GPIO2->FIOPIN
   #define DOOR_PINMODE     LPC_PINCON->PINMODE4
 #define DOOR_1_BIT      11
-#define DOOR_2_BIT      12
 #define DOOR_1_PINMODE_BIT      22
-#define DOOR_2_PINMODE_BIT      24
-#define DOOR_MASK       ((1<<DOOR_1_BIT)|(1<<DOOR_2_BIT))
+#define DOOR_MASK       (1<<DOOR_1_BIT)
 
   #define CHILLER_DDR       LPC_GPIO4->FIODIR
   #define CHILLER_PIN       LPC_GPIO4->FIOPIN

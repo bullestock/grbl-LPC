@@ -134,6 +134,7 @@ void spindle_stop()
     int prescaler = 0;
     if (settings.spindle_pwm_adaptive)
     {
+        // f = 5000/(prescaler+1)
         if (pwm_value > 400)
             ; // default
         else if (pwm_value > 100)

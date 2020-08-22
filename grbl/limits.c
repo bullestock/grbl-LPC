@@ -57,8 +57,6 @@ void limits_init()
   // Disable pullups
   DOOR_PINMODE &= ~(1 << DOOR_1_PINMODE_BIT);
   DOOR_PINMODE |= (1 << (DOOR_1_PINMODE_BIT + 1));
-  DOOR_PINMODE &= ~(1 << DOOR_2_PINMODE_BIT);
-  DOOR_PINMODE |= (1 << (DOOR_2_PINMODE_BIT + 1));
 #endif
 
 #ifdef CHILLER_DDR
@@ -125,7 +123,7 @@ uint8_t door_get_state()
 #endif
   if (bit_isfalse(settings.flags, BITFLAG_INVERT_DOOR_PINS)) { pin ^= DOOR_MASK; }
   if (pin) {
-    for (uint8_t idx = 0; idx < 2; idx++) {
+    for (uint8_t idx = 0; idx < 1; idx++) {
       if (pin & get_door_pin_mask(idx)) { door_state |= (1 << idx); }
     }
   }

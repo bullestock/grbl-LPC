@@ -623,8 +623,6 @@ void report_realtime_status()
 #ifdef DOOR_DDR
       if (bit_istrue(door_pin_state, bit(0)))
           serial_write('1');
-      if (bit_istrue(door_pin_state, bit(1)))
-          serial_write('2');
 #endif
 #ifdef CHILLER_DDR
       if (chiller_pin_state)
